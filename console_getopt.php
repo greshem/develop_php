@@ -1,0 +1,4 @@
+<?
+	require("Console/Getopt.php");
+?>
+

@@ -1,0 +1,3 @@
+<?
+echo php_uname();
+?>

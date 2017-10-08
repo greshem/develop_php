@@ -1,0 +1,361 @@
+二、现有的PEAR模块
+由于Pear的大多数模块仍处于开发当中，因此，这里列举的是随着php4.05一起发布的pear中的模块，需要注意的是，一些抽象类或者是基类(如Mail.php,Log.php,Cache.php)没有列举出来，我们只是关注具有具体功能的模块。下面是这些模块的一个列表：
+Benchmark/Timer 测试你的一段php代码的运行效率
+Benchmark/Benchmark_Iterate 测试你某个函数循环执行时的性能
+Cache/Output 可以将你的php脚本的输出进行缓存，可以使用多种方式缓存（存在文件，数据库或者是共享内存中）,如果使用这个模块有可能增大服务器的负载，所以，如果你想通过动态脚本的缓存来提供效率，不妨使用Zend optimize,这个模块未必适合
+Cache/Graphics 可以将你需要动态输出的图片进行缓存
+Console/Getopt 命令行参数的处理模块
+CMD 一个虚拟的shell，可以用它来运行一些系统的命令
+Crypt/CBC 实现Perl Crypt::CBC 模块的仿真
+Crypt/HCEMD5 实现Perl Crypt::HCE_MD5 模块的功能
+Date/Calc 实现日期的相关操作
+Date/Human Human历法的转换
+DB 提供统一的、抽象的数据库操作层，后端支持多种数据库
+File/Find 文件查找
+File/Passwd 操纵password类的文件，如password,httppass,cvspassword
+File/SearchReplace 在文件中查找替换字符串
+HTML/Form 可以在html中快速地创建form
+HTML/IT 实现模板定制，动态生成页面的功能，类似phplib中的模板功能，但是要简单易用
+HTML/ITX 实现对IT的扩展功能，可以更加灵活地定制你的模板，实现更复杂的操作
+HTML/Processor XML_Parser的扩展，使之可以应用于html文件的操作
+HTTP/Compress 用于Php 输出缓冲机制的一个包装类，同时可以对缓冲的内容进行压缩存储
+Image/Remote 无需把整个图片都下载到本地就可以获取远端系统的图片的信息，
+Log/composite Horde对log抽象类做的一个扩展，可以使多个日志处理对象能够获得同一个日志事件。注意，Log目录下面的模块都是Horde项目的一部分，大部分都是抽象的超类
+Log/file 将日志信息写入文件
+Log/mcal 将信息发送到本地或远端的日程管理软件-mcal的数据库中
+Log/observer Horder中Observer的一个超类
+Log/sql 将日志信息发送到sql数据库中
+Log/syslog 将信息发送到syslog中
+Mail/RFC822 检查一个email地址是否是合法的rf822 email地址
+Mail/sendmail 使用sendmail来发送信件
+Mail/smtp 使用smtp服务器来发送信件
+Math/Fraction 处理分形的数学计算
+Math/Util 计算最大公约数
+NET/Curl 对php的Curl扩展所作的面向对象的包装
+NET/Dig 操纵dig，进行dns相关的查询操作
+NET/SMTP 使用NET/Socket实现SMTP协议
+NET/Socket 通用的Socket类，实现了常用的socket操作的包装
+Numbers/Roman 阿拉伯数字和罗马数字的相互转换
+Payment/Verisign 实现和Verisign支付网关的交互
+Pear 提供Pear模块的2个基本类，PEAR 和PEARError类
+PEAR/Installer pear的安装类，提供Perl中的CPAN模块类似的功能
+PHPDoc 从php代码中自动生成API文档
+Schedule/at 和Unix 上的AT守护进程进行交互
+XML/Parser 基于php的xml扩展所作的xml的解析器
+XML/Render 将xml文档生成其它的格式（html,pdf),这只是一个抽象类，在最新的pear cvs代码中已经有了html的实现
+XML/RPC 用php实现xml-rpc的一个抽象类，在最新的pear cvs代码中已经有了xml/RPC/Server的实现
+三、主要模块使用简介
+现在我们将简单地介绍一些比较常用的，而且功能已经比较完善和稳定，可以用于“实战“模块，其中对于几个功能很强大的模块Db,phpdoc,XML_Parser，IT,ITX将在以后的文章中单独介绍。
+1.PEAR/Installer
+这个模块属于pear本身的核心模块，它完成pear其它模块的安装和维护工作，类似perl中的cpan模块的功能，不过目前只有install功能，其它诸如查询，检查依赖性等等都没有完成，pear本身也没有类似 cpan 那样的开放的站点，不过随着参与pear的开发人员的不断增加，一切都会有的。
+使用语法：PEAR_Installer::installer($file)
+$file是需要安装的模块文件，可以是本地文件，也可以是远程的文件，如http://或者是ftp，installer会自动下载到本地。文件一般使用gzip打包，其中要包括一个package.xml文件，用于描述你的这个模块的相关信息，如包含的文件，相互依赖性等，此外当然要包括你的模块的 php文件。pacakage.xml的DTD文件在pear目录下面，名字是package.dtd.
+<?php
+require_once "EAR/Installer.php";
+$installer = new PEAR_Installer;
+//安装指定的模块
+$result = $installer->install($package_file);
+if ( PEAR::isError($result)){
+echo "Install $package_file failed!";
+}else {
+echo "Install $package_file sucess!";
+}
+?>
+
+
+
+2.CMD
+虽然大多数的php应用很少调用系统命令，因为这些应用都是基于web的，从运行效率和系统的负载考虑，都要避免直接调用系统命令，不过，在有些特殊的应用或者是你愿意把php作为一个shell工具的时候，调用现有的系统工具就是不可避免的了。CMD可以让你很方便地执行一系列的系统命令。
+使用语法：setOption ($option, $setting)
+设置参数$options为$setting
+$options是一个常量，它可以是以下值：
+CMD_SHUTDOWN : 通过shutdown函数来执行命令
+CMD_SHELL : 指定shell的路径
+CMD_OUTPUT : 是否屏蔽命令的标准输出
+CMD_NOHUP : 使用nohup后台执行命令
+CMD_VERBOSE : 将错误打印到标准输出
+
+command($command)
+添加需要执行的命令，$command可以是数组或普通的字符串
+exec()
+执行已经添加的命令
+<?php
+require_once "CMD.php";
+$cmd = new CMD;
+$cmd->command('tar zcvf test.tar.gz ~/test');
+if ( $cmd->exec() ) {
+echo "success！\n";
+} esle {
+echo "Error:" . $cmd->lastError;
+}
+?>
+
+
+3.Benchmark/Timer和Benchmark/Iterate
+这2个模块可以让你测试你的代码的运行效率如何，我认为这对于系统调试很有用：你可以尝试不同的算法，仔细考察每种算法需要运行的时间，然后选择最佳的方式。Benchmark/Timer测试运行中在2个不同的时间点的时间差，Benchmark/Iterate则是对Timer扩展，测试运行某段代码（函数）n次所需要的时间。
+使用语法：Benchmark/Timer
+Timer::setMarker($name) 设置当前时间点为$name
+Timer::start() 开始测试
+Timer::stop() 停止测试
+Timer::timeElapsed($start = 'Start', $end = 'Stop') 计算$start和$end 这2个时间点的时间差
+Timer::getProfiling() 返回start 和 stop 之间所耗用的时间
+<?php
+require_once "Benchmark/Timer.php";
+$timer = new Benchmark_Timer;
+$timer->start();
+$timer->setMarker('Marker 1');
+$timer->stop();
+$profiling = $timer->getProfiling();
+?>
+
+
+Benchmark/Iterate
+Iterate::run()
+循环运行指定的函数。这是一个具有可变参数的方法，第一个参数是要循环的次数，第2个参数是要执行的函数，第3个参数起则是要传递给测试函数的参数。
+Iterate::get()
+返回测试所用的时间
+<?php
+require_once "Benchmark/Iterate.php";
+$benchmark = new Benchmark_Iterate;
+function foo($string)
+{
+print $string."
+";
+}
+$benchmark->run(100, 'foo', 'test');
+$result = $benchmark->get();
+?>
+
+
+3.File/Find
+&glob ($pattern, $dirpath, $pattern_type='php')
+在$dirpath中搜索符合$pattern的目录和文件，返回匹配的文件和目录名数组
+&search ($pattern, $directory, $type='php')
+在$directory中搜索符合$pattern规则的文件，返回匹配的文件名数组（注意，只是文件，不包括子目录）。$pattern是要指定的搜索条件，一般是规则表达式，$patten_type指定使用什么模式的规则表达式，缺省是php模式，你也可以指定"perl"来使用perl模式的规则表达式
+提示：search和glob不同的是，glob并不递归搜索子目录，而search则递归搜索子目录。
+<?php
+require_once "File/Find.php";
+$find = new File_Find;
+//搜索当前目录
+$php_files = $find->glob("*php",".");
+if ( PEAR::isError( $php_files ) ){
+die "错误：" . $php_files->getMessage() ."\n" ;
+}
+//递归搜索当前目录
+$all_php_files = $find->search("*php",".");
+if ( PEAR::isError( $all_php_files ) ){
+die "错误：" . $php_files->getMessage() ."\n" ;
+}
+?>
+
+
+4.File/Passwd
+操纵password格式的文件，类似如标准的unix password,apache 的.htppass,cvs的pserver password文件。从现有版本的代码来看，它还不能真正地用来维护这些passwd文件（比如并不支持shadow)。不过你可以用来创建类似的密码文件，当然，安全性不会很高。
+使用方法：
+File_Passwd($file,$lock=0)----------创建对象，$file是你要操作的passwd文件，$lock指定是否要用flock对文件上锁。
+addUser($user,$pass,$cvsuser)----------增加一个用户,$user,$pass分别是用户名和密码，$cvsuser是cvs 用户的id
+modUser($user,$pass,$cvsuser)----------修改$user的密码为$pass,$cvsuser是cvs 用户的id
+delUser($user)----------删除指定的用户$user
+verifyPassword($user,$pass)----------检验用户密码
+close()----------保存刚才的修改到password文件，关闭password文件，对文件解锁。
+5.File/SearchReplace
+在文件中查找和替换字符串
+使用方法：File_SearchReplace($find, $replace, $files, $directories = '', $include_subdir = 1, $ignore_lines = array())
+生成并设置对象
+$find
+要查找的字符串，可以是字符串或规则表达式
+$replace
+要替换成的字符串，可以是字符串或规则表达式
+$files
+指定在哪些文件中进行替换操作，数组或者是以","分割的一个字符串
+$directories
+指定在那个目录中操作，可选，数组或者是以","分割的一个字符串
+$include_subdir
+如果是在目录中操作，指定是否在子目录中递归执行上述操作，可以是数值1或0。
+$ignore_lines
+指定要忽略的文件行，这是一个数组，任何以这个数组中任意一个字符串开始的文件行，都会忽略。
+getNumOccurences()
+返回已经执行了查找替换的次数
+getLastError()
+返回上一次的错误信息
+setFind($find)
+设置要查找的字符串
+setReplace($replace)
+设置要替换的字符串
+setFiles($files)
+设置要执行替换操作的文件
+setDirectories($directories)
+设置要替换操作的目录
+setIncludeSubdir($include_subdir)
+设置是否在子目录中也执行查找替换
+setIgnoreLines($ignore_lines)
+设置要忽略的行，只能在使用"normal"搜索函数的时候使用
+setSearchFunction($search_function)
+设置要使用的搜索函数，可以是下列参数：
+normal 缺省值，使用file函数读入文件内容，然后使用str_replace逐行的进行替换。
+quick 使用str_replace直接对整个文件进行替换
+preg 使用preg_replace()来进行替换,你可以使用符合这个函数要求的规则表达式
+ereg 使用ereg_replace()来进行替换,你可以使用符合这个函数要求的规则表达式
+
+doSearch()
+执行查找替换操作
+<?php
+require_once "File/SearchReplace.php";
+require_once "File/Find";
+//递归搜索当前目录
+$find = new File_Find;
+$all_php_files = $find->search("*php",".");
+if ( PEAR::isError( $all_php_files ) ){
+die "错误：" . $php_files->getMessage() ."\n" ;
+}
+if ( !count($all_php_file) ){
+die "NO php source files found!\n";
+}
+//将<?的php标志修正成<?php,以符合pear标准
+$replace = new File_SearchReplace('<? ','<?php ',$all_php_files);
+$replace->doSearch();
+if ( $replace->getLastError() ) {
+die "发生错误:" . $replace->getLastError() ;
+} else {
+echo "共成功替换了 " . $replace->getNumOccurences() . " 处。\n";
+}
+?>
+
+
+6.HTML/Form
+这个模块可以让你快速地生成一个提交的窗体，而无需重新去编写html代码
+使用方法：Form::HTML_Form($action, $method = 'GET', $name = '', $target = '')
+这个类的构造函数带有一些参数，这些参数和通常要编写html代码中的form参数是基本一致的，$action是在form中要提交到的URL,$name可以指定form的名字，$target指定是否要新开窗口等等。
+下面的addXXX系列方法，用于在这个form中添加相应的控件，控件的属性和html中的也相一致。
+addText($name, $title, $default, $size = HTML_FORM_TEXT_SIZE)
+addCheckbox($name, $title, $default)
+addTextarea($name, $title, $default,$width = HTML_FORM_TEXTAREA_WT,$height = HTML_FORM_TEXTAREA_HT)
+addPassword($name, $title, $default, $size = HTML_FORM_PASSWD_SIZE)
+addSubmit($name = "submit", $title = "Submit Changes")
+addReset($title = "Discard Changes")
+addSelect($name, $title, $entries, $default = '', $size = 1,$blank = '', $multiple = false, $attribs = '')
+addRadio($name, $title, $value, $default)
+addImage($name, $src)
+addHidden($name, $value)
+Display()
+显示这个窗体
+<?php
+require_once "HTML/Form.php";
+//创建并显示登录窗体
+$myform = new HTML_Form("./login.php");
+$myform->addText('username','用户名','');
+$myform->addPasswd('passwd','登录密码',20);
+$myform->addHidden('retry','1');
+$myform->addSumit('login','登录');
+$myform->Display();
+?>
+
+
+7.Mail/RFC822
+检查一个输入的email是否合法，不是一件很轻松的事情，你也许尝试使用一些规则表达式来检查，但是并非那么方便有效。现在，如果要检查一系列的邮件地址是否符合RFC822标准，并把它们拆分成单独的email地址，你可以试试这个模块，非常简单实用。
+使用方法：Mail_RFC822($address = null, $default_domain = null, $nest_groups = null, $validate = null)
+类构造函数，$address是你要验证的一系列的地址，$default_domain，指定缺省的域名或者主机名，$nest_groups 是否在输出结果中进行分组，以便显示$validate 是否需要验证每个原子parseAddressList($address = null, $default_domain = null, $nest_groups = null, $validate = null)分析验证所给定的地址列表，如果地址有效，返回拆分后的单独的地址列表，如果发生错误，则返回错误信息。
+<?php
+require_once "Mail/RFC822.php";
+$rf822 = new Mail_RFC822;
+$result=$rf822->paseAddressList('who;whoim@hotmail.com;test@test.ch');
+if ( $rf822->error ){
+echo "Errorresult";
+}else {
+reset($result);
+for ($i=0; $i< count($result);$i++){
+echo "emailresult[$i]\n";
+}
+}
+?>
+
+
+8.Mail/Sendmail
+sendmail是unix/linux上面最常用的MTA,这个模块可以让你直接使用sendmail来发送信件
+使用方法：Mail_sendmail($params)
+类构造函数，$params是一个关联数组,你可以设定sendmail的参数，目前只有'sendmail_path'是有效的，用来设置 sendmail的路径 send($recipients, $headers, $body) 发送信件，$recipients是你的收件人的email地址，可以是单个，也可以是用;隔开的地址列表，只要符合RFC82标准就可以。$headers是你发送信件的信头，这是一个关联数租，数组的关键字是信头的名字（如Subject)，数组值则是信头的值(比如：Hello!)。处理后的信头将会是：Subject:Hello! $body 是信件的信体，包括所有的MIME编码后的部分。如果成功，返回真，否则返回一个PEAR_Error对象
+<?php
+require_once "Mail/sendmail.php";
+$sendmail = new Mail_sendmail(array('sendmail_path=>'/usr/local/bin/sendmail'));
+$header = array('Subject'=>'Hello','BCC'=>'test2@hotmail.com');
+$body = 'This is a test message from nightsailer.com';
+$result = $sendmail->send('test@nightsailer.com', $header, $body);
+if ( PEAR::isError($result) ){
+echo "<h1> 发送失败 </h1><br>原因：".$result->getMessage()."<br>";
+}else {
+echo "<h1>恭喜！发送成功！</h1><br>";
+}
+?>
+
+
+9.Mail/smtp
+对于现在有些站点不允许使用sendmail,那么如果你的php程序希望使用发信功能，就需要能够通过使用外部的smtp服务器来完成相应的功能了。
+使用方法：使用上这个模块和Mail::sendmail基本上是一样的。需要注意的是：这个模块需要使用Net::SMTP模块：Mail_smtp($params)
+$params的有效参数是：
+'host' smtp的服务器地址，缺省是 localhost
+'port' smtp服务端口，缺省是25
+'auth' smtp是否需要授权验证，缺省是false
+'usename' smtp授权的用户名
+'password' smtp授权的密码
+send($recipients, $headers, $body)
+发送
+<?php
+require_once "Mail/sendmail.php";
+$params=array('host'=>'smtp.nightsailer.com','auth'=true,
+'username'=>'night','password'=>'123456');
+$sendmail = new Mail_sendmail($params);
+$header = array('Subject'=>'Hello','BCC'=>'test2@hotmail.com');
+$body = 'This is a test message from nightsailer.com';
+$result = $sendmail->send('test@nightsailer.com', $header, $body);
+if ( PEAR::isError($result) ){
+echo "<h1> 发送失败 </h1><br>原因：".$result->getMessage()."<br>";
+}else {
+echo "<h1>恭喜！发送成功！</h1><br>";
+}
+?>
+
+
+10.Schedule/At
+这个模块提供了unix上面的at程序的接口
+add($cmd, $timespec, $queue = false, $mail = false )
+追加一个at命令
+这个方法将为at程序生成一个定制的作业:
+$cmd 是你要运行的程序或脚本
+$timespec 是作业开始执行的时间，格式与at要求的相同
+$queue 可选参数，指明作业的队列名
+$mail 可选参数，指明是否在作业结束后要发送email汇报运行结果
+show($queue = false)
+显示在at队列中的命令，返回一个关联数组，数组的key是作业的编号，相应的键值也是一个关联数组，内容是array（runtime，queue）$queue是一个可选参数，你可以用它限定只返回队列中队列名匹配$queue的作业列表
+remove($job = false)
+从at队列中删除指定的at作业$job是要删除的作业编号,如果，成功，返回true,否则返回false
+<?php
+require_once "Schedule/At.php";
+$at = new Schedule_At();
+//生成并追加一个作业
+$result = $at->add ('find / -type file -name core -exec rm -f {} \;','00:00');
+if ( PEAR::is_Error($result) ) {
+echo "无法追加作业！\n";
+echo "原因：$result->getMessage() \n";
+exit;
+}
+//显示当前at队列
+$queue = $at->show();
+if ( PEAR::isError($queue) ) {
+echo "发生错误！\n";
+echo "原因：" . queue->getMessage(). "\n";
+exit;
+}
+reset( $queue );
+while ( list($job, $cmd) = each $queue ){
+echo "[$job]" . $cmd['runtime'] . "-" .$cmd['queue']；
+echo "\n"
+}
+?>
+
+
+以上是一些PEAR模块的使用，更为详细的说明需要你自己去察看这些模块的源文件，或者你可以使用phpdoc自动生成这些模块的api文档。关于phpdoc,我们将在下篇详细讨论。
+四、资源
+PEAR CVS 你可以从这里获得最新的PEAR源码
+Hoder 项目
+PHPDoc 主页 　
+###################

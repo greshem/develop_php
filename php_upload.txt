@@ -1,0 +1,175 @@
+php文件上传 
+  
+
+1.上传表单
+
+upload.html  
+
+ 程序代码
+
+<form enctype="multipart/form-data" action="upload.php" method="post"> 
+
+<input type="hidden" name="max_file_size" value="100000"> 
+
+<input name="userfile" type="file">　　 
+
+<input type="submit" value="上传文件"> 
+
+</form>
+
+
+1.注意<form enctype="multipart/form-data"......>这是一个标签，我们要实现文件的上传，必须指定为multipart/form-data，否则服务器将不知道要干什么。 
+
+2.值得注意的是文件upload.html中表单选项 MAX_FILE_SIZE 的隐藏值域，通过设置其Value(值)可以限制上载文件的大小。 
+
+3.MAX_FILE_SIZE 的值只是对浏览器的一个建议，实际上它可以被简单的绕过。因此不要把对浏览器的限制寄希望于该值。实际上，PHP 设置中的上传文件最大值，是不会失效的。但是最好还是在表单中加上 MAX_FILE_SIZE，因为它可以避免用户在花时间等待上传大文件之后才发现该文件太大了的麻烦。
+
+ 
+
+PHP上传文件涉及到的参数 
+
+ 程序代码
+
+$f=&$HTTP_POST_FILES['Myfile'];
+
+$dest_dir='uploads';//设定上传目录
+
+$dest=$dest_dir.'/'.date("ymd")."_".$f['name'];//设置文件名为日期加上文件名避免重复
+
+$r=move_uploaded_file($f['tmp_name'],$dest);
+
+chmod($dest, 0755);//设定上传的文件的属性
+
+或者
+
+<?copy($_FILES[MyFile][tmp_name],$_FILES[MyFile][name]);?>
+
+===================================================================================
+
+ 
+
+以上范例中 $_FILES 数组的内容如下所示。我们假设文件上传字段的名称为 userfile（名称可随意命名） 
+
+$_FILES['userfile']['name'] 客户端机器文件的原名称。 
+
+$_FILES['userfile']['type'] 文件的 MIME 类型，需要浏览器提供该信息的支持，例如“image/gif”。 
+
+$_FILES['userfile']['size'] 已上传文件的大小，单位为字节。 
+
+$_FILES['userfile']['tmp_name'] 文件被上传后在服务端储存的临时文件名。 
+
+$_FILES['userfile']['error'] 和该文件上传相关的错误代码 
+
+值：0; 没有错误发生，文件上传成功。 
+
+值：1; 上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值。 
+
+值：2; 上传文件的大小超过了 HTML 表单中 MAX_FILE_SIZE 选项指定的值。 
+
+值：3; 文件只有部分被上传。 
+
+值：4; 没有文件被上传。 
+
+ 
+
+PHP默认的上传限定是最大2M，想上传超过此设定的文件，需要调整PHP、apache等的一些参数. 下面，我们简要介绍一下PHP文件上传涉及到的一些参数： 
+
+file_uploads 
+
+是否允许通过HTTP上传文件的开关，默认为ON即是开 
+
+upload_tmp_dir 
+
+upload_tmp_dir用来说明PHP上传的文件放置的临时目录，要想上传文件，得保证服务器没有关闭临时文件和有对文件夹的写权限，如果未指定则PHP使用系统默认值 
+
+upload_max_filesize 
+
+允许上传文件大小的最大值，默认为2M 
+
+post_max_size 
+
+控制在采用POST方法进行一次表单提交中PHP所能够接收的最大数据量。如果希望使用PHP文件上传功能，则需要将此值改为比upload_max_filesize要大 
+
+max_input_time 
+
+以秒为单位对通过POST、GET以及PUT方式接收数据时间进行限制。如果应用程序所运行环境处在低速链路上，则需要增加此值以适应接收数据所需的更多时间 
+
+memory_limit 
+
+为了避免正在运行的脚本大量使用系统可用内存，PHP允许定义内存使用限额。通过memory_limit变量来指定单个脚本程序可以使用的最大内存容量变量memory_limit的值应当适当大于post_max_size的值 
+
+max_execution_time 
+
+max_execution_time设置了在强制终止脚本前PHP等待脚本执行完毕的时间，此时间以秒计算。当脚本进入了一个无限循环状态时此变量非常有用。然而，当存在一个需要很长时间完成的合法活动时（例如上传大型文件），这项功能也会导致操作失败。在这样的情况下必须考虑将此变量值增加，以避免PHP在脚本正在执行某些重要过程的时候将脚本关闭 
+
+对于linux主机，可能在/etc/httpd/conf.d/access.conf/下面里面还有php.conf 文件，这个文件可能会解决一些系统的文件大小限制问题 
+
+ 
+
+ 
+
+PHP中上传大体积文件时需要的设置 
+
+几个参数调整： 
+
+0：文件上传时存放文件的临时目录。必须是 PHP 进程所有者用户可写的目录。如果未指定则 PHP 使用系统默认值 
+
+php.ini文件中upload_tmp_dir用来说明PHP上传的文件放置的临时目录。 
+
+要想上传文件，得保证服务器没有关闭临时文件和有对文件夹的写权限 
+
+1：max_execution_time 
+
+变量max_execution_time设置了在强制终止脚本前PHP等待脚本执行完毕的时间，此时间以秒计算。当脚本进入了一个无限循环状态 时此变量非常有用。然而，当存在一个需要很长时间完成的合法活动时（例如上传大型文件），这项功能也会导致操作失败。在这样的情况下必须考虑将此变量值增 加，以避免PHP在脚本正在执行某些重要过程的时候将脚本关闭。 
+
+max_execution_time = 90 
+
+2：file_uploads = On 
+
+3：upload_max_filesize = 2M 
+
+4：post_max_size 
+
+同表单提交相关的一个变量是post_max_size，它将控制在采用POST方法进行一次表单提交中PHP所能够接收的最大数据量。似乎不大 可能需要将默认的8 MB改得更大。相反，应当适当将其降到更为实际的数值。但如果希望使用PHP文件上传功能，则需要将此值改为比upload_max_filesize还 要大。 
+
+post_max_size = 8M 
+
+5：max_input_time 
+
+此变量可以以秒为单位对通过POST、GET以及PUT方式接收数据时间进行限制。如果应用程序所运行环境处在低速链路上，则需要增加此值以适应接收数据所需的更多时间。 
+
+max_input_time = 90 
+
+6：memory_limit 
+
+memory_limit = 8M 
+
+为了避免正在运行的脚本大量使用系统可用内存，PHP允许定义内存使用限额。通过memory_limit变量来指定单个脚本程序可以使用的最大内存容量 
+
+变量memory_limit的值应当适当大于post_max_size的值 
+
+如何实现php大文件上传： 
+
+一个简单的配置例子，大家可以参考下： 
+
+1：打开php.ini，首先找到 
+
+file_uploads = on ;是否允许通过HTTP上传文件的开关。默认为ON即是开 
+
+upload_tmp_dir ;文件上传至服务器上存储临时文件的地方，如果没指定就会用系统默认的临时文件夹 
+
+upload_max_filesize = 8m ;望文生意，即允许上传文件大小的最大值。默认为2M 
+
+post_max_size = 8m ;指通过表单POST给PHP的所能接收的最大值，包括表单里的所有值。默认为8M 
+
+一般地，设置好上述四个参数后，上传<=8M的文件是不成问题，在网络正常的情况下。 
+
+但如果要上传>8M的大体积文件，只设置上述四项还一定能行的通。除非你的网络真有100M/S的上传高速，否则你还得关心关心下面的参数 
+
+max_execution_time = 600 ;每个PHP页面运行的最大时间值(秒)，默认30秒 
+
+max_input_time = 600 ;每个PHP页面接收数据所需的最大时间，默认60秒 
+
+memory_limit = 8m ;每个PHP页面所吃掉的最大内存，默认8M 
+
+把上述参数修改后，在网络所允许的正常情况下，就可以上传大体积文件了

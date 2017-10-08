@@ -1,0 +1,27 @@
+$_REQUEST 变量
+
+PHP 的 $_REQUEST 变量包含了 $_GET, $_POST 以及 $_COOKIE 的内容。
+
+PHP 的 $_REQUEST 变量可用来取得通过 GET 和 POST 方法发送的表单数据的结果。
+例子
+
+Welcome <?php echo $_REQUEST["name"]; ?>.<br />
+You are <?php echo $_REQUEST["age"]; ?> years old!
+
+为什么使用 $_GET？
+
+注释：在使用 $_GET 变量时，所有的变量名和值都会显示在 URL 中。所以在发送密码或其他敏感信息时，不应该使用这个方法。不过，正因为变量显示在 URL 中，因此可以在收藏夹中收藏该页面。在某些情况下，这是很有用的。
+
+注释：HTTP GET 方法不适合大型的变量值；值是不能超过 100 个字符的。
+$_SERVER["REQUEST_METHOD"]
+###############################
+$HTTP_GET_VARS
+$HTTP_POST_VARS
+..........
+这种形式是老的用法，
+现在都使用
+$_GET
+$_POST
+$_REQUEST
+$_SESSION
+$_COOKIE

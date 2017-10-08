@@ -1,0 +1,102 @@
+ALL PACKAGES [CHANNEL PEAR.PHP.NET]:
+====================================
+PACKAGE                                        LATEST   LOCAL
+pear/Benchmark                                 1.2.7    1.2.7      Framework to benchmark PHP scripts or function calls.
+pear/Config                                    1.10.11             Your configuration's swiss-army knife.
+pear/Event_Dispatcher                          1.0.0               Dispatch notifications using PHP callbacks
+pear/Gtk_VarDump                               1.0.0               A simple GUI to example php data trees
+pear/Gtk_ScrollingLabel                        1.0.0               A scrolling label for PHP-Gtk
+pear/Gtk_FileDrop                              1.0.2               Make Gtk widgets accept file drops
+pear/Gtk_Styled                                1.0.0               PHP-GTK pseudo-widgets that mimic GtkData based objects and allow the look and feel to be controlled by the programmer.
+pear/Log                                       1.10.1   1.10.0     Logging Framework
+pear/Numbers_Roman                             1.0.2    1.0.2      Provides methods for converting to and from Roman Numerals.
+pear/Numbers_Words                             0.15.0   0.15.0     The PEAR Numbers_Words package provides methods for spelling numerals in words.
+pear/FSM                                       1.3.0               Finite State Machine
+pear/QA_Peardoc_Coverage                       1.1.1               PEAR documentation coverage analysis.
+pear/Science_Chemistry                         1.1.0               Classes to manipulate chemical objects: atoms, molecules, etc.
+pear/Services_Akismet                                              Services_Akismet is a package to use Akismet spam-filtering from PHP
+pear/Stream_SHM                                1.0.0               Shared Memory Stream
+pear/Stream_Var                                1.0.0               Allows stream based access to any variable.
+pear/System_ProcWatch                          0.4.2               Monitor Processes
+pear/System_Socket                             0.4.1               OO socket API
+pear/System_Mount                              1.0.0               Mount and unmount devices in fstab
+pear/System_WinDrives                          1.0.0               List files drives on windows systems
+pear/System_SharedMemory                       0.9.0RC1            common OO-style shared memory API
+pear/System_Folders                            1.0.0               Location of system folders
+pear/VersionControl_SVN                        0.3.1               Simple OO wrapper interface for the Subversion command-line client.
+pear/Image_GraphViz                                     1.2.1      Interface to AT&T's GraphViz tools
+pear/Validate                                           0.8.1      Validation class
+pear/Console_Getargs                                    1.3.4      A command-line arguments parser
+pear/Structures_DataGrid_DataSource_Array               0.1.2      DataSource driver using arrays
+pear/HTML_QuickForm                                     3.2.10     The PEAR::HTML_QuickForm package provides methods for creating, validating, processing HTML forms.
+pear/Validate_Finance_CreditCard                        0.5.2      Validation class for Credit Cards
+pear/XML_Beautifier                                     1.1        Class to format XML documents.
+pear/PEAR_Command_Packaging                             0.1.2      make-rpm-spec command for managing RPM .spec files for PEAR packages
+pear/XML_RPC                                            1.5.1      PHP implementation of the XML-RPC protocol
+pear/File_SMBPasswd                                     1.0.2      Class for managing SAMBA style password files.
+pear/Structures_Graph                                   1.0.2      Graph datastructure manipulation library
+pear/Services_Weather                                   1.4.2      This class acts as an interface to various online weather-services.
+pear/Structures_DataGrid_Renderer_Smarty                0.1.3      Renderer driver using Smarty
+pear/MDB2_Driver_mysqli                                 1.4.1      mysqli MDB2 driver
+pear/Math_Stats                                         0.9.0beta3 Classes to calculate statistical parameters
+pear/File_Find                                          1.3.0      A Class the facilitates the search of filesystems
+pear/Structures_DataGrid                                0.9.0      Render a data table with automatic pagination and sorting
+pear/Net_URL                                            1.0.15     Easy parsing of Urls
+pear/Structures_DataGrid_Renderer_Pager                 0.1.2      Renderer driver using PEAR::Pager
+pear/HTTP_Upload                                        0.9.1      Easy and secure managment of files submitted via HTML Forms
+pear/Net_SMTP                                           1.3.0      An implementation of the SMTP protocol
+pear/PHP_Compat                                         1.5.0      Provides missing functionality for older versions of PHP
+pear/Structures_DataGrid_DataSource_MDB2                0.1.10     DataSource driver using PEAR::MDB2 and an SQL query
+pear/PEAR                                               1.6.2      PEAR Base System
+pear/Net_Ping                                           2.4.3      Execute ping
+pear/DB_DataObject_FormBuilder                          1.0.0RC7   Class to automatically build HTML_QuickForm objects from a DB_DataObject-derived class
+pear/Console_Getopt                                     1.2.3      Command-line option parser
+pear/Net_Curl                                           1.2.3      Net_Curl provides an OO interface to PHP's cURL extension
+pear/PhpDocumentor                                      1.4.1      The phpDocumentor package provides automatic documenting of php api directly from the source.
+pear/HTML_QuickForm_ElementGrid                         0.1.1      An HTML_QuickForm meta-element which holds any other element in a grid
+pear/Pager                                              2.4.4      Data paging class
+pear/Structures_DataGrid_DataSource_DataObject          0.2.0      DataSource driver using PEAR::DB_DataObject
+pear/Mail_Mime                                          1.5.2      Mail_Mime provides classes to create mime messages.
+pear/XML_RSS                                            0.9.10     RSS parser
+pear/Console_Color                                      1.0.2      This Class allows you to easily use ANSI console colors in your application.
+pear/HTTP_Request                                       1.4.2      Provides an easy way to perform HTTP requests
+pear/Mail_mimeDecode                                    1.5.0      Provides a class to decode mime messages.
+pear/Structures_DataGrid_DataSource_RSS                 0.1.1      DataSource driver using RSS files
+pear/HTTP                                               1.4.0      Miscellaneous HTTP utilities
+pear/File                                               1.3.0      Common file and directory routines, also CSV handling
+pear/DB_DataObject                                      1.8.8      An SQL Builder, Object Interface to Database Tables
+pear/HTML_QuickForm_advmultiselect                      1.4.0      Element for HTML_QuickForm that emulate a multi-select.
+pear/Net_URL_Mapper                                     0.9.0      Provides a simple and flexible way to build nice URLs for web applications.
+pear/Phlickr                                            0.2.7      Access the Flickr API (PHP 5)
+pear/DB_QueryTool                                       1.1.2      An OO-interface for easily retrieving and modifying data in a DB.
+pear/Crypt_CHAP                                         1.0.1      Generating CHAP packets.
+pear/Archive_Tar                                        1.3.2      Tar file management class
+pear/SOAP                                               0.11.0     SOAP Client/Server for PHP
+pear/Payment_Process                                    0.6.5      Unified payment processor
+pear/MDB2                                               2.4.1      database abstraction layer
+pear/XML_Serializer                                     0.18.0     Swiss-army knive for reading and writing XML files. Creates XML files from data structures and vice versa.
+pear/Net_Sieve                                          1.1.5      Handles talking to timsieved
+pear/Net_Traceroute                                     0.21.1     Execute traceroute
+pear/XML_Parser                                         1.2.8      XML parsing class based on PHP's bundled expat
+pear/Cache                                              1.5.5RC4   Framework for caching of arbitrary data.
+pear/MDB2_Driver_mysql                                  1.4.1      mysql MDB2 driver
+pear/Console_Table                                      1.1.1      Class that makes it easy to build console style tables
+pear/PHP_CodeSniffer                                    1.0.1      PHP_CodeSniffer tokenises PHP code and detects violations of a defined set of coding standards.
+pear/HTML_Table                                         1.8.2      PEAR::HTML_Table makes the design of HTML tables easy, flexible, reusable and efficient.
+pear/Net_FTP                                            1.3.4      Net_FTP provides an OO interface to the PHP FTP functions plus some additions
+pear/Image_Graph                                        0.7.2      A package for displaying (numerical) data as a graph/chart/plot.
+pear/Auth_SASL                                          1.0.2      Abstraction of various SASL mechanism responses
+pear/Image_Color                                        1.0.2      Manage and handles color data and conversions.
+pear/DB                                                 1.7.13     Database Abstraction Layer
+pear/Date                                               1.4.7      Generic date/time handling class for PEAR
+pear/Net_POP3                                           1.3.6      Provides a POP3 class to access POP3 server.
+pear/XML_Util                                           1.1.4      XML utility class.
+pear/Image_Canvas                                       0.3.1      A package providing a common interface to image drawing, making image source code independent on the library used.
+pear/Net_DIME                                           0.3        The PEAR::Net_DIME class implements DIME encoding
+pear/Mail                                               1.1.14     Class that provides multiple interfaces for sending emails
+pear/Date_Holidays                                      0.17.4     Driver based class to calculate holidays.
+pear/Net_UserAgent_Detect                               2.4.0      Net_UserAgent_Detect determines the Web browser, version, and platform from an HTTP user agent string
+pear/Net_Socket                                         1.0.8      Network Socket Interface
+pear/File_Passwd                                        1.1.6      Manipulate many kinds of password files
+pear/HTML_Common                                        1.2.4      PEAR::HTML_Common is a base class for other HTML classes.
+pear/PHP_CompatInfo                                     1.7.0      Find out the minimum version and the extensions required for a piece of code to run
